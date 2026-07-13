@@ -6,14 +6,14 @@ Large generated artifacts are intentionally not included in this GitHub repo. Th
 
 ## Pipeline
 
-1. `dataset_generation/`: construct the CTD-Align dataset, including evidence table and KG files.
-2. `text_embeddings/`: encode evidence text with pre-trained language models.
-3. `kg_embeddings/`: train RDF2Vec, RotatE, and TuckER KG embeddings.
-4. `alignment/`: train and evaluate text-to-KG and KG-to-text alignment models.
+- `dataset_generation/`: scripts to build the CTD/PubTator dataset and KG files.
+- `text_embeddings/`: scripts to generate biomedical sentence embeddings.
+- `kg_embeddings/`: scripts to train RDF2Vec, RotatE, and TuckER embeddings.
+- `alignment/`: scripts to train and evaluate the text-KG alignment models.
 
-## Alignment Input
+## Data
 
-The alignment code expects the following structure under `Data/`:
+LThe alignment code expects the following structure under `Data/`:
 
 ```text
 Data/
@@ -80,7 +80,7 @@ For each training direction, text model, KG model, architecture, triple combinat
 Fixed training settings include batch size `256`, InfoNCE temperature `0.07`, maximum `100` epochs, early stopping patience `15`, and gradient clipping `1.0`.
 
 
-## Quick Start
+## Run
 
 Create an environment and install the combined dependency list:
 
@@ -96,5 +96,4 @@ Run alignment experiments:
 cd alignment
 python run_hpo.py
 ```
-
 

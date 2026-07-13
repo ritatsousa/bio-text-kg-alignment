@@ -1,0 +1,17 @@
+# Combined dependency sketch. Individual submodules also include their original
+# requirements files where available.
+numpy
+pandas
+scikit-learn
+torch
+optuna
+mlflow
+matplotlib
+pydantic
+loguru
+pyyaml
+rdflib
+gensim
+pyrdf2vec
+pykeen
+transformers

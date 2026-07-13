@@ -1,0 +1,20 @@
+{
+  "models": {
+    "biobert": {
+      "hf_model": "dmis-lab/biobert-v1.1",
+      "dim": 768,
+      "precision": "float16",
+      "file": "embeddings_biobert.npy",
+      "created_at": "2026-03-22T22:24:18.520157"
+    },
+    "pubmedbert": {
+      "hf_model": "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract",
+      "dim": 768,
+      "precision": "float16",
+      "file": "embeddings_pubmedbert.npy",
+      "created_at": "2026-03-22T23:38:18.644288"
+    }
+  },
+  "num_texts": 23087,
+  "source_file": "C:\\D\\5_HWS_2025\\TP500_Aligning_LLMs_and_biomed_KGs\\text_embeddings\\..\\CTD_to_PubTator\\kg_data\\evidence_aligned_ided.tsv"
+}

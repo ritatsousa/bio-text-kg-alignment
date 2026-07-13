@@ -1,0 +1,77 @@
+# KG Embeddings Configuration
+# Dataset: kg_full.tsv 
+#
+# References:
+# - RotatE: Sun et al. 2019 (https://arxiv.org/abs/1902.10197)
+# - TuckER: Balazevic et al. 2019 (https://arxiv.org/abs/1901.09590)
+# - RDF2Vec: Ristoski & Paulheim 2016
+
+# =============================================================================
+# Data Configuration
+# =============================================================================
+data:
+  kg_path: "kg_core_v2/kg_full.tsv"
+  metadata_path: "kg_core_v2/metadata_full.tsv"
+  train_ratio: 0.95
+  validation_ratio: 0.05
+  # No test set — embeddings for downstream alignment, not link prediction
+  split_method: "cleanup"  # Pins degree-1 entities to training (21,415 entities, 28.9%)
+  random_seed: 42
+
+# =============================================================================
+# HPO Configuration
+# =============================================================================
+hpo:
+  n_trials: 40             # Optuna TPE trials per method
+  metric: "mean_reciprocal_rank"  # HPO objective — MRR, more nuanced than Hits@10 for 14-relation KG
+  top_k: 10                # Save top-K models for downstream evaluation
+  stopper: "early"
+  stopper_frequency: 10    # Evaluate every N epochs
+  max_epochs_per_trial: 500
+
+  # RotatE HPO ranges (6 parameters)
+  # Justification: all ranges grounded in Sun et al. 2019 best_config.sh + PyKEEN defaults
+  rotate:
+    embedding_dim: [50, 100, 150, 200, 250]  # complex values → 2x real dims
+    margin: [3, 6, 9, 12]                     # WN18RR=6, WN18=12; our 14 rels → [3,12]
+    adversarial_temperature: [0.5, 1.0]       # Paper tests exactly these 2 values
+    lr_range: [1.0e-5, 5.0e-4]               # Paper: [5e-5, 2e-4]; log scale
+    num_negs_range: [50, 500]                 # Paper: 1024 (WN18RR); our compromise
+    batch_size: 512                           # Fixed — lowest sensitivity param (Sobol analysis)
+    patience: 10
+
+  # TuckER HPO ranges (7 parameters)
+  # Justification: grounded in Balazevic et al. 2019 Table 2 + WN18RR config
+  tucker:
+    embedding_dim: [100, 200, 300]
+    relation_dim: [30, 50, 100]               # Paper: 30 (WN18RR, 11 rels), 200 (FB15k-237, 237 rels)
+    dropout_0_range: [0.1, 0.3]               # Paper: {0.2, 0.3}
+    dropout_1_range: [0.1, 0.4]               # Paper: {0.1, 0.2, 0.4}
+    dropout_2_range: [0.2, 0.5]               # Paper: {0.2, 0.3, 0.5}
+    lr_range: [5.0e-4, 5.0e-3]               # Paper: 5e-4 (FB15k-237), 3e-3 (WN18RR)
+    label_smoothing: [0.0, 0.1, 0.2]         # Paper: {0.0, 0.1}; 0.2 as extension
+    batch_size: 128                           # LCWA standard (paper)
+    patience: 5
+
+# =============================================================================
+# RDF2Vec HPO Grid (15 curated configs)
+# =============================================================================
+rdf2vec:
+  # Fixed parameters
+  sg: 1                   # Skip-gram (paper standard)
+  min_count: 1            # All entities must have embeddings
+  workers: 16             # CPU parallelism
+  md5_bytes: null         # Bug fix: no entity name hashing
+  with_reverse: false     # Avoid Cartesian product walk explosion
+
+  # HPO grid — vary one dim at a time from baseline + key interactions
+  # Configs defined in hpo_rdf2vec.py
+  # Baseline: depth=4, walks=200, vec=200, window=5, epochs=50, neg=10
+
+# =============================================================================
+# Output Configuration
+# =============================================================================
+output:
+  base_dir: "outputs"
+  hpo_dir: "outputs/hpo"
+  mlflow_uri: "file:./outputs/mlruns"

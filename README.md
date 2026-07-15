@@ -2,7 +2,7 @@
 
 This repository contains the code used to build a CTD-Align dataset, generate biomedical text and KG embeddings, and run alignment experiments between evidence sentences and KG triples.
 
-![Overview of our unified framework for biomedical text-KG alignment. Documents and KG triples expressing the same fact are embedded by frozen encoders; the only trained component is a lightweight projection aligning the two spaces under a contrastive InfoNCE objective. We vary six components, shown here as separate modules: the text encoder, KG embedding model, triple-composition operator, projection head, training direction, and hard-negative strategy. We evaluate alignment by retrieval in two settings: document-to-triple (D2T) and triple-to-document (T2D).](framework.png)
+![Overview of our unified framework for biomedical text-KG alignment. Documents and KG triples expressing the same fact are embedded by frozen encoders; the only trained component is a lightweight projection aligning the two spaces under a contrastive InfoNCE objective. We vary six components, shown here as separate modules: the text encoder, KG embedding model, triple-composition operator, projection head, training direction, and hard-negative strategy. We evaluate alignment by retrieval in two settings: document-to-triple (D2T) and triple-to-document (T2D).](framework.jpg)
 
 Large generated artifacts are intentionally not included in this GitHub repo. This includes downloaded data, generated embeddings, checkpoints, Optuna databases and MLflow runs. 
 

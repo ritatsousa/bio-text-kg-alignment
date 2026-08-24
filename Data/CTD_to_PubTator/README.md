@@ -1,4 +1,4 @@
-# Dataset Files
+# Data Files
 
 This folder contains the data files required by the alignment experiments. The
 dataset was generated from CTD knowledge graph resources and PubTator evidence

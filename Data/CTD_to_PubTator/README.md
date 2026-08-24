@@ -29,7 +29,7 @@ Data/
 `-- structure.txt
 ```
 
-## Evidence-Aligned Dataset
+## CTD-Align Triple-Document Dataset
 
 `CTD_to_PubTator/kg_data/evidence_aligned_ided_medcpt_dedup.tsv` is the main
 alignment dataset. It contains one row per evidence/triple pair.

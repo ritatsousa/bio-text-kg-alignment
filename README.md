@@ -15,7 +15,7 @@ Large generated artifacts are intentionally not included in this GitHub repo. Th
 
 ## Data
 
-LThe alignment code expects the following structure under `Data/`:
+The alignment code expects the following structure under `Data/`:
 
 ```text
 Data/
